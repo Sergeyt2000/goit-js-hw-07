@@ -4,27 +4,34 @@ function getRandomHexColor() {
     .padStart(6, 0)}`;
 }
 
-function createBoxes(amount) {
-  let newWidthAndHieght = 30;  
-  for (let i = 0; i < amount; i++) {
+const boxesEl = document.querySelector("#boxes");
+const createBtnEl = document.querySelector("[data-create]");
+const destroyBtnEl = document.querySelector("[data-destroy]");
+const numbBtnEl = document.querySelector('[type="number"]');
+
+let fragment = document.createDocumentFragment();
+
+numbBtnEl.addEventListener("input", () => {
+  let newWidthAndHieght = 30;
+  for (let i = 0; i < numbBtnEl.value; i++) {
+    const amount = Number(numbBtnEl.value);
     const newBoxEl = document.createElement("div");
-    // const newWidthAndHieght = 30 + i * 10;
-    boxesEl.append(newBoxEl);
     newBoxEl.style.width = `${newWidthAndHieght}px`;
     newBoxEl.style.height = `${newWidthAndHieght}px`;
     newWidthAndHieght += 10;
     newBoxEl.style.backgroundColor = getRandomHexColor();
+    fragment.append(newBoxEl);
   }
+  // console.log("fragment:", fragment);
+});
+
+function createBoxes(amount) {
+  boxesEl.append(fragment);
 }
 
 function destroyBoxes() {
   boxesEl.innerHTML = "";
 }
-
-const boxesEl = document.querySelector("#boxes");
-const createBtnEl = document.querySelector("[data-create]");
-const destroyBtnEl = document.querySelector("[data-destroy]");
-const numbBtnEl = document.querySelector('[type="number"]');
 
 createBtnEl.addEventListener("click", (evt) => {
   destroyBoxes();
